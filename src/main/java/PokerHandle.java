@@ -8,6 +8,8 @@ public class PokerHandle {
     private static final int HIGH_CARD = 1;
     private static final int PAIR = 2;
     private static final int TWO_PAIR = 3;
+    private static final int THREE_KIND = 4;
+
 
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
         int level_1 = judgePokersListLevel(fistPokers);
@@ -51,6 +53,9 @@ public class PokerHandle {
             }
             if (quantityValue == 2) {
                 pairNum++;
+            }
+            if (quantityValue == 3) {
+                return THREE_KIND;
             }
         }
         if (pairNum == 0) {
