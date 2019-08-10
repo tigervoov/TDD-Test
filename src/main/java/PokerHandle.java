@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class PokerHandle {
     private static final int HIGH_CARD = 1;
     private static final int PAIR = 2;
-
+    private static final int TWO_PAIR = 3;
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
         int level_1 = judgePokersListLevel(fistPokers);
         int level_2 = judgePokersListLevel(secondPokers);
@@ -22,7 +22,8 @@ public class PokerHandle {
             }
             if (level_1 == PAIR && level_2 == PAIR) {
                 return checkPairPokersListWhenSameLevel(fistPokers, secondPokers);
-            } else {
+            }
+            else {
                 return null;
             }
         }
@@ -51,6 +52,9 @@ public class PokerHandle {
         }
         if (pairNum == 1) {
             return PAIR;
+        }
+        if (pairNum == 2) {
+            return TWO_PAIR;
         }
         return HIGH_CARD;
     }
