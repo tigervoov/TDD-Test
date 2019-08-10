@@ -2,6 +2,11 @@ public class Poker {
     private int number;
     private String features;
 
+    public Poker(String number, String features) {
+        this.number = formatPokerValue(number);
+        this.features = features;
+    }
+
     public int getNumber() {
         return number;
     }
@@ -18,8 +23,23 @@ public class Poker {
         this.features = features;
     }
 
-    public Poker(int number, String features) {
-        this.number = number;
-        this.features = features;
+    private int formatPokerValue(String number){
+        if(number=="T"){
+            return 10;
+        }
+        if(number=="J"){
+            return 11;
+        }
+        if(number=="Q"){
+            return 12;
+        }
+        if(number=="K"){
+            return 13;
+        }
+        if(number=="A"){
+            return 14;
+        } else{
+            return Integer.parseInt(number);
+        }
     }
 }
