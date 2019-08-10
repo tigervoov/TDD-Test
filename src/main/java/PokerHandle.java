@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PokerHandle {
@@ -9,6 +6,7 @@ public class PokerHandle {
     private static final int PAIR = 2;
     private static final int TWO_PAIR = 3;
     private static final int THREE_KIND = 4;
+    private static final int STRAIGHT = 5;
 
 
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
@@ -26,23 +24,23 @@ public class PokerHandle {
             if (level_1 == PAIR && level_2 == PAIR) {
                 return checkPairPokersListWhenSameLevel(fistPokers, secondPokers);
             }
-            if (level_1 == TWO_PAIR && level_2 == TWO_PAIR){
+            if (level_1 == TWO_PAIR && level_2 == TWO_PAIR) {
                 return checkTwoPairPokersListWhenSameLevel(fistPokers, secondPokers);
             }
-            if(level_1 == THREE_KIND && level_2 == THREE_KIND){
+            if (level_1 == THREE_KIND && level_2 == THREE_KIND) {
                 return checkThreeKindPokersListWhenSameLevel(fistPokers, secondPokers);
-            }
-            else{
+            } else {
                 return null;
             }
         }
     }
 
 
-
     public int judgePokersListLevel(List<Poker> pokers) {
-        List<Integer> pokersNumList = pokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
-
+        List<Integer> pokersNumList = pokers.stream().map(item -> item.getNumber()).sorted().collect(Collectors.toList());
+        if(isStraight(pokersNumList)){
+            return STRAIGHT;
+        }
         Map<Integer, Integer> pokersMap = new HashMap<>();
         for (int i = 0; i < pokersNumList.size(); i++) {
             Integer quantityValue = pokersMap.get(pokersNumList.get(i));
@@ -92,6 +90,7 @@ public class PokerHandle {
         int successPokerValue_2 = getSuccessPokerValue(PAIR, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
     }
+
     private String checkTwoPairPokersListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
         List<Integer> pokersNumList_1 = fistPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
         List<Integer> pokersNumList_2 = secondPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
@@ -99,12 +98,25 @@ public class PokerHandle {
         int successPokerValue_2 = getSuccessPokerValue(TWO_PAIR, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
     }
+
     private String checkThreeKindPokersListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
         List<Integer> pokersNumList_1 = fistPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
         List<Integer> pokersNumList_2 = secondPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
         int successPokerValue_1 = getSuccessPokerValue(THREE_KIND, pokersNumList_1);
         int successPokerValue_2 = getSuccessPokerValue(THREE_KIND, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
+
+    private Boolean isStraight(List<Integer> pokersNumList) {
+        Set<Integer> poker = new HashSet<>();
+        for (int i = 0; i < pokersNumList.size() - 1; i++) {
+            int maxValue = pokersNumList.get(pokersNumList.size() - 1);
+            if (pokersNumList.get(0) + pokersNumList.size() - 1 != maxValue) {
+                return false;
+            }
+            poker.add(pokersNumList.get(i) + pokersNumList.size() - 1 - i);
+        }
+        return poker.size() == 1 ? true : false;
     }
 
     private int getSuccessPokerValue(int pokersListLevel, List<Integer> pokersNumList) {
@@ -120,14 +132,14 @@ public class PokerHandle {
                     successPoker_key = key;
                 }
             }
-            if(pokersListLevel ==TWO_PAIR){
+            if (pokersListLevel == TWO_PAIR) {
                 if (pokersMap.get(key) == 2) {
-                    if(key>successPoker_key){
-                        successPoker_key=key;
+                    if (key > successPoker_key) {
+                        successPoker_key = key;
                     }
                 }
             }
-            if(pokersListLevel == THREE_KIND){
+            if (pokersListLevel == THREE_KIND) {
                 if (pokersMap.get(key) == 3) {
                     successPoker_key = key;
                 }
