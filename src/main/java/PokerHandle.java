@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class PokerHandle {
-    public String checkTwoPotersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
+    public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
         int maxNum1=fistPokers.stream().map(item->item.getNumber()).max((i,j)->i.compareTo(j)).get();
         int maxNum2=secondPokers.stream().map(item->item.getNumber()).max((i,j)->i.compareTo(j)).get();
         if (maxNum1 > maxNum2) {
