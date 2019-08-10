@@ -5,24 +5,29 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PokerHandle {
-    private static final int HIGH_CARD=1;
-    private static final int PAIR=2;
+    private static final int HIGH_CARD = 1;
+    private static final int PAIR = 2;
+
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
-        int levelStr1=judgePokersListLevel(fistPokers);
-        int levelStr2=judgePokersListLevel(secondPokers);
-        if(levelStr1>levelStr2){
+        int level_1 = judgePokersListLevel(fistPokers);
+        int level_2 = judgePokersListLevel(secondPokers);
+        if (level_1 > level_2) {
             return "Player 1 win";
         }
-        if(levelStr1<levelStr2){
+        if (level_1 < level_2) {
             return "Player 2 win";
-        }else {
-            if(levelStr1==1&&levelStr1==1){
-                return checkHighCardPokersList(fistPokers,secondPokers);
-            }else {
+        } else {
+            if (level_1 == HIGH_CARD && level_2 == HIGH_CARD) {
+                return checkHighCardPokersList(fistPokers, secondPokers);
+            }
+            if (level_1 == PAIR && level_2 == PAIR) {
+                return checkPairPokersListWhenSameLevel(fistPokers, secondPokers);
+            } else {
                 return null;
             }
         }
     }
+
 
     public int judgePokersListLevel(List<Poker> pokers) {
         List<Integer> pokersNumList = pokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
@@ -32,19 +37,19 @@ public class PokerHandle {
             Integer quantityValue = pokersMap.get(pokersNumList.get(i));
             pokersMap.put(pokersNumList.get(i), quantityValue == null ? 1 : quantityValue + 1);
         }
-        int pairNum=0;
+        int pairNum = 0;
         for (Integer quantityValue : pokersMap.values()) {
-            if(quantityValue==1){
+            if (quantityValue == 1) {
                 continue;
             }
-            if(quantityValue==2){
+            if (quantityValue == 2) {
                 pairNum++;
             }
         }
-        if(pairNum==0){
+        if (pairNum == 0) {
             return HIGH_CARD;
         }
-        if(pairNum==1){
+        if (pairNum == 1) {
             return PAIR;
         }
         return HIGH_CARD;
@@ -62,5 +67,32 @@ public class PokerHandle {
             return "Player 2 win";
         }
     }
+
+    private String checkPairPokersListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
+        List<Integer> pokersNumList_1 = fistPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        List<Integer> pokersNumList_2 = secondPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        int successPokerValue_1 = getSuccessPokerValue(PAIR, pokersNumList_1);
+        int successPokerValue_2 = getSuccessPokerValue(PAIR, pokersNumList_2);
+        return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
+
+    private int getSuccessPokerValue(int pokersListLevel, List<Integer> pokersNumList) {
+        int successPoker_key = 0;
+        Map<Integer, Integer> pokersMap = new HashMap<>();
+        for (int i = 0; i < pokersNumList.size(); i++) {
+            Integer quantityValue = pokersMap.get(pokersNumList.get(i));
+            pokersMap.put(pokersNumList.get(i), quantityValue == null ? 1 : quantityValue + 1);
+        }
+        for (Integer key : pokersMap.keySet()) {
+            if (pokersListLevel == PAIR) {
+                if (pokersMap.get(key) == 2) {
+                    successPoker_key = key;
+                }
+            }
+
+        }
+        return successPoker_key;
+    }
+
 
 }
