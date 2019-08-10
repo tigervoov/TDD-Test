@@ -8,6 +8,7 @@ public class PokerHandle {
     private static final int HIGH_CARD = 1;
     private static final int PAIR = 2;
     private static final int TWO_PAIR = 3;
+
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
         int level_1 = judgePokersListLevel(fistPokers);
         int level_2 = judgePokersListLevel(secondPokers);
@@ -23,11 +24,16 @@ public class PokerHandle {
             if (level_1 == PAIR && level_2 == PAIR) {
                 return checkPairPokersListWhenSameLevel(fistPokers, secondPokers);
             }
-            else {
+            if (level_1 == TWO_PAIR && level_2 == TWO_PAIR){
+                return checkTwoPairPokersListWhenSameLevel(fistPokers, secondPokers);
+            }
+            else{
                 return null;
             }
         }
     }
+
+
 
 
     public int judgePokersListLevel(List<Poker> pokers) {
@@ -79,6 +85,13 @@ public class PokerHandle {
         int successPokerValue_2 = getSuccessPokerValue(PAIR, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
     }
+    private String checkTwoPairPokersListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
+        List<Integer> pokersNumList_1 = fistPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        List<Integer> pokersNumList_2 = secondPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        int successPokerValue_1 = getSuccessPokerValue(TWO_PAIR, pokersNumList_1);
+        int successPokerValue_2 = getSuccessPokerValue(TWO_PAIR, pokersNumList_2);
+        return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
 
     private int getSuccessPokerValue(int pokersListLevel, List<Integer> pokersNumList) {
         int successPoker_key = 0;
@@ -91,6 +104,13 @@ public class PokerHandle {
             if (pokersListLevel == PAIR) {
                 if (pokersMap.get(key) == 2) {
                     successPoker_key = key;
+                }
+            }
+            if(pokersListLevel ==TWO_PAIR){
+                if (pokersMap.get(key) == 2) {
+                    if(key>successPoker_key){
+                        successPoker_key=key;
+                    }
                 }
             }
 
