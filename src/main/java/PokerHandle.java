@@ -7,6 +7,7 @@ public class PokerHandle {
     private static final int TWO_PAIR = 3;
     private static final int THREE_KIND = 4;
     private static final int STRAIGHT = 5;
+    private static final int FLUSH = 6;
 
 
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
@@ -30,20 +31,21 @@ public class PokerHandle {
             if (level_1 == THREE_KIND && level_2 == THREE_KIND) {
                 return checkThreeKindPokersListWhenSameLevel(fistPokers, secondPokers);
             }
-            if(level_1 == STRAIGHT && level_2 == STRAIGHT){
+            if (level_1 == STRAIGHT && level_2 == STRAIGHT) {
                 return checkStraightPokerListWhenSameLevel(fistPokers, secondPokers);
-            }
-            else {
+            } else {
                 return null;
             }
         }
     }
 
 
-
     public int judgePokersListLevel(List<Poker> pokers) {
+        if (isFlush(pokers)) {
+            return FLUSH;
+        }
         List<Integer> pokersNumList = pokers.stream().map(item -> item.getNumber()).sorted().collect(Collectors.toList());
-        if(isStraight(pokersNumList)){
+        if (isStraight(pokersNumList)) {
             return STRAIGHT;
         }
         Map<Integer, Integer> pokersMap = new HashMap<>();
@@ -111,6 +113,7 @@ public class PokerHandle {
         int successPokerValue_2 = getSuccessPokerValue(THREE_KIND, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
     }
+
     private String checkStraightPokerListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
         int maxNum1 = fistPokers.stream().map(item -> item.getNumber()).max((i, j) -> i.compareTo(j)).get();
         int maxNum2 = secondPokers.stream().map(item -> item.getNumber()).max((i, j) -> i.compareTo(j)).get();
@@ -127,6 +130,13 @@ public class PokerHandle {
             poker.add(pokersNumList.get(i) + pokersNumList.size() - 1 - i);
         }
         return poker.size() == 1 ? true : false;
+    }
+
+    private Boolean isFlush(List<Poker> pokers) {
+        List<String> pokersFeatures = pokers.stream().map(item -> item.getFeatures()).collect(Collectors.toList());
+        String firstFeature = pokersFeatures.get(0);
+        long num = pokersFeatures.stream().filter(item -> item.equals(firstFeature)).count();
+        return num == 5 ? true : false;
     }
 
     private int getSuccessPokerValue(int pokersListLevel, List<Integer> pokersNumList) {
