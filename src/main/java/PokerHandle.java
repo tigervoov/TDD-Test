@@ -29,12 +29,14 @@ public class PokerHandle {
             if (level_1 == TWO_PAIR && level_2 == TWO_PAIR){
                 return checkTwoPairPokersListWhenSameLevel(fistPokers, secondPokers);
             }
+            if(level_1 == THREE_KIND && level_2 == THREE_KIND){
+                return checkThreeKindPokersListWhenSameLevel(fistPokers, secondPokers);
+            }
             else{
                 return null;
             }
         }
     }
-
 
 
 
@@ -97,6 +99,13 @@ public class PokerHandle {
         int successPokerValue_2 = getSuccessPokerValue(TWO_PAIR, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
     }
+    private String checkThreeKindPokersListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
+        List<Integer> pokersNumList_1 = fistPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        List<Integer> pokersNumList_2 = secondPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        int successPokerValue_1 = getSuccessPokerValue(THREE_KIND, pokersNumList_1);
+        int successPokerValue_2 = getSuccessPokerValue(THREE_KIND, pokersNumList_2);
+        return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
 
     private int getSuccessPokerValue(int pokersListLevel, List<Integer> pokersNumList) {
         int successPoker_key = 0;
@@ -116,6 +125,11 @@ public class PokerHandle {
                     if(key>successPoker_key){
                         successPoker_key=key;
                     }
+                }
+            }
+            if(pokersListLevel == THREE_KIND){
+                if (pokersMap.get(key) == 3) {
+                    successPoker_key = key;
                 }
             }
 
