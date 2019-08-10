@@ -29,11 +29,16 @@ public class PokerHandle {
             }
             if (level_1 == THREE_KIND && level_2 == THREE_KIND) {
                 return checkThreeKindPokersListWhenSameLevel(fistPokers, secondPokers);
-            } else {
+            }
+            if(level_1 == STRAIGHT && level_2 == STRAIGHT){
+                return checkStraightPokerListWhenSameLevel(fistPokers, secondPokers);
+            }
+            else {
                 return null;
             }
         }
     }
+
 
 
     public int judgePokersListLevel(List<Poker> pokers) {
@@ -105,6 +110,11 @@ public class PokerHandle {
         int successPokerValue_1 = getSuccessPokerValue(THREE_KIND, pokersNumList_1);
         int successPokerValue_2 = getSuccessPokerValue(THREE_KIND, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
+    private String checkStraightPokerListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
+        int maxNum1 = fistPokers.stream().map(item -> item.getNumber()).max((i, j) -> i.compareTo(j)).get();
+        int maxNum2 = secondPokers.stream().map(item -> item.getNumber()).max((i, j) -> i.compareTo(j)).get();
+        return maxNum1 > maxNum2 ? "Player 1 win" : "Player 2 win";
     }
 
     private Boolean isStraight(List<Integer> pokersNumList) {

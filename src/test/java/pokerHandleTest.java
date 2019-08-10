@@ -108,6 +108,17 @@ public class pokerHandleTest {
         //then
         Assert.assertEquals("Player 2 win",result);
     }
+    @Test
+    public void testCheckStraightPokerListWhenSameLevel(){
+        //given
+        List<Poker> firstPokers= Arrays.asList(new Poker("4","S"),new Poker("5","D"),new Poker("6","C"),new Poker("7","S"),new Poker("8","S"));
+        List<Poker> secondPokers= Arrays.asList(new Poker("J","S"),new Poker("9","D"),new Poker("10","C"),new Poker("Q","S"),new Poker("K","S"));
+        //when
+        PokerHandle pokerHandle=new PokerHandle();
+        String result=pokerHandle.checkTwoPokersListValue(firstPokers,secondPokers);
+        //then
+        Assert.assertEquals("Player 2 win",result);
+    }
 
 
 
