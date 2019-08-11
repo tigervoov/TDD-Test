@@ -9,6 +9,7 @@ public class PokerHandle {
     private static final int STRAIGHT = 5;
     private static final int FLUSH = 6;
     private static final int FULL_HOUSE = 7;
+    private static final int FOUR_KIND = 8;
 
 
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
@@ -51,10 +52,10 @@ public class PokerHandle {
         if (isFlush(pokers)) {
             return FLUSH;
         }
-        List<Integer> pokersNumList = pokers.stream().map(item -> item.getNumber()).sorted().collect(Collectors.toList());
-        if (isStraight(pokersNumList)) {
+        if (isStraight(pokers)) {
             return STRAIGHT;
         }
+        List<Integer> pokersNumList = pokers.stream().map(item -> item.getNumber()).sorted().collect(Collectors.toList());
         Map<Integer, Integer> pokersMap = new HashMap<>();
         for (int i = 0; i < pokersNumList.size(); i++) {
             Integer quantityValue = pokersMap.get(pokersNumList.get(i));
@@ -62,6 +63,7 @@ public class PokerHandle {
         }
         int pairNum = 0;
         int threeKindNum = 0;
+        int fourKindNum = 0;
         for (Integer quantityValue : pokersMap.values()) {
             if (quantityValue == 1) {
                 continue;
@@ -72,8 +74,11 @@ public class PokerHandle {
             if (quantityValue == 3) {
                 threeKindNum++;
             }
+            if (quantityValue == 4) {
+                fourKindNum++;
+            }
         }
-        if (pairNum == 0 && threeKindNum == 0) {
+        if (pairNum == 0 && threeKindNum == 0 && fourKindNum == 0) {
             return HIGH_CARD;
         }
         if (pairNum == 1 && threeKindNum == 0) {
@@ -87,6 +92,9 @@ public class PokerHandle {
         }
         if (pairNum == 1 && threeKindNum == 1) {
             return FULL_HOUSE;
+        }
+        if (fourKindNum == 1) {
+            return FOUR_KIND;
         }
         return HIGH_CARD;
     }
@@ -154,7 +162,8 @@ public class PokerHandle {
     }
 
 
-    private Boolean isStraight(List<Integer> pokersNumList) {
+    private Boolean isStraight(List<Poker> pokers) {
+        List<Integer> pokersNumList = pokers.stream().map(item -> item.getNumber()).sorted().collect(Collectors.toList());
         Set<Integer> poker = new HashSet<>();
         for (int i = 0; i < pokersNumList.size() - 1; i++) {
             int maxValue = pokersNumList.get(pokersNumList.size() - 1);

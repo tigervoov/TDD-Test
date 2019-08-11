@@ -163,6 +163,18 @@ public class pokerHandleTest {
         //then
         Assert.assertEquals("Player 2 win",result);
     }
+    @Test
+    public void testCheckFourKindPokerList(){
+        //given
+        List<Poker> firstPokers= Arrays.asList(new Poker("4","S"),new Poker("4","D"),new Poker("4","C"),new Poker("4","H"),new Poker("7","H"));
+        List<Poker> secondPokers= Arrays.asList(new Poker("5","S"),new Poker("5","D"),new Poker("5","C"),new Poker("Q","S"),new Poker("Q","S"));
+        //when
+        PokerHandle pokerHandle=new PokerHandle();
+        String result=pokerHandle.checkTwoPokersListValue(firstPokers,secondPokers);
+        //then
+        Assert.assertEquals("Player 1 win",result);
+    }
+
 
 
 
