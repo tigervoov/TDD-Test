@@ -37,6 +37,9 @@ public class PokerHandle {
             }
             if (level_1 == FLUSH && level_2 == FLUSH) {
                 return checkFlushPokerListWhenSameLevel(fistPokers, secondPokers);
+            }
+            if (level_1 == FULL_HOUSE && level_2 == FULL_HOUSE) {
+                return checkFullHousePokerListWhenSameLevel(fistPokers, secondPokers);
             } else {
                 return null;
             }
@@ -137,6 +140,20 @@ public class PokerHandle {
         return maxNum1 > maxNum2 ? "Player 1 win" : "Player 2 win";
     }
 
+    private String checkFullHousePokerListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
+        List<Integer> pokersNumList_1 = fistPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        List<Integer> pokersNumList_2 = secondPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        int successPokerValue_1 = getSuccessRepeatPokerValue(FULL_HOUSE, pokersNumList_1);
+        int successPokerValue_2 = getSuccessRepeatPokerValue(FULL_HOUSE, pokersNumList_2);
+        return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
+
+
+    private int getMaxNum(List<Poker> pokers) {
+        return pokers.stream().map(item -> item.getNumber()).max((i, j) -> i.compareTo(j)).get();
+    }
+
+
     private Boolean isStraight(List<Integer> pokersNumList) {
         Set<Integer> poker = new HashSet<>();
         for (int i = 0; i < pokersNumList.size() - 1; i++) {
@@ -154,10 +171,6 @@ public class PokerHandle {
         String firstFeature = pokersFeatures.get(0);
         long num = pokersFeatures.stream().filter(item -> item.equals(firstFeature)).count();
         return num == 5 ? true : false;
-    }
-
-    private int getMaxNum(List<Poker> pokers) {
-        return pokers.stream().map(item -> item.getNumber()).max((i, j) -> i.compareTo(j)).get();
     }
 
     private int getSuccessRepeatPokerValue(int pokersListLevel, List<Integer> pokersNumList) {
@@ -180,11 +193,12 @@ public class PokerHandle {
                     }
                 }
             }
-            if (pokersListLevel == THREE_KIND) {
+            if (pokersListLevel == THREE_KIND || pokersListLevel == FULL_HOUSE) {
                 if (pokersMap.get(key) == 3) {
                     successPoker_key = key;
                 }
             }
+
 
         }
         return successPoker_key;
