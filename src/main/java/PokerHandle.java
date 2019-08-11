@@ -10,6 +10,7 @@ public class PokerHandle {
     private static final int FLUSH = 6;
     private static final int FULL_HOUSE = 7;
     private static final int FOUR_KIND = 8;
+    private static final int STRAIGHT_FLUSH = 9;
 
 
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
@@ -44,14 +45,20 @@ public class PokerHandle {
             }
             if (level_1 == FOUR_KIND && level_2 == FOUR_KIND) {
                 return checkFourKindPokerListWhenSameLevel(fistPokers, secondPokers);
-            } else {
+            }
+            if (level_1 == STRAIGHT_FLUSH && level_2 == STRAIGHT_FLUSH) {
+                return checkStraightFlushPokerListWhenSameLevel(fistPokers, secondPokers);
+            }
+            else {
                 return null;
             }
         }
     }
 
-
     public int judgePokersListLevel(List<Poker> pokers) {
+        if (isFlush(pokers) && isStraight(pokers)) {
+            return STRAIGHT_FLUSH;
+        }
         if (isFlush(pokers)) {
             return FLUSH;
         }
@@ -165,6 +172,12 @@ public class PokerHandle {
         int successPokerValue_1 = getSuccessRepeatPokerValue(FOUR_KIND, pokersNumList_1);
         int successPokerValue_2 = getSuccessRepeatPokerValue(FOUR_KIND, pokersNumList_2);
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
+
+    private String checkStraightFlushPokerListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
+        int maxNum1 = getMaxNum(fistPokers);
+        int maxNum2 = getMaxNum(secondPokers);
+        return maxNum1 > maxNum2 ? "Player 1 win" : "Player 2 win";
     }
 
     private int getMaxNum(List<Poker> pokers) {
