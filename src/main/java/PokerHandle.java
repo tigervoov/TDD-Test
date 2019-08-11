@@ -41,6 +41,9 @@ public class PokerHandle {
             }
             if (level_1 == FULL_HOUSE && level_2 == FULL_HOUSE) {
                 return checkFullHousePokerListWhenSameLevel(fistPokers, secondPokers);
+            }
+            if (level_1 == FOUR_KIND && level_2 == FOUR_KIND) {
+                return checkFourKindPokerListWhenSameLevel(fistPokers, secondPokers);
             } else {
                 return null;
             }
@@ -156,6 +159,13 @@ public class PokerHandle {
         return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
     }
 
+    private String checkFourKindPokerListWhenSameLevel(List<Poker> fistPokers, List<Poker> secondPokers) {
+        List<Integer> pokersNumList_1 = fistPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        List<Integer> pokersNumList_2 = secondPokers.stream().map(item -> item.getNumber()).collect(Collectors.toList());
+        int successPokerValue_1 = getSuccessRepeatPokerValue(FOUR_KIND, pokersNumList_1);
+        int successPokerValue_2 = getSuccessRepeatPokerValue(FOUR_KIND, pokersNumList_2);
+        return successPokerValue_1 > successPokerValue_2 ? "Player 1 win" : "Player 2 win";
+    }
 
     private int getMaxNum(List<Poker> pokers) {
         return pokers.stream().map(item -> item.getNumber()).max((i, j) -> i.compareTo(j)).get();
@@ -204,6 +214,11 @@ public class PokerHandle {
             }
             if (pokersListLevel == THREE_KIND || pokersListLevel == FULL_HOUSE) {
                 if (pokersMap.get(key) == 3) {
+                    successPoker_key = key;
+                }
+            }
+            if (pokersListLevel == FOUR_KIND) {
+                if (pokersMap.get(key) == 4) {
                     successPoker_key = key;
                 }
             }
