@@ -8,6 +8,7 @@ public class PokerHandle {
     private static final int THREE_KIND = 4;
     private static final int STRAIGHT = 5;
     private static final int FLUSH = 6;
+    private static final int FULL_HOUSE = 7;
 
 
     public String checkTwoPokersListValue(List<Poker> fistPokers, List<Poker> secondPokers) {
@@ -36,14 +37,11 @@ public class PokerHandle {
             }
             if (level_1 == FLUSH && level_2 == FLUSH) {
                 return checkFlushPokerListWhenSameLevel(fistPokers, secondPokers);
-            }
-            else {
+            } else {
                 return null;
             }
         }
     }
-
-
 
 
     public int judgePokersListLevel(List<Poker> pokers) {
@@ -83,6 +81,9 @@ public class PokerHandle {
         }
         if (pairNum == 0 && threeKindNum == 1) {
             return THREE_KIND;
+        }
+        if (pairNum == 1 && threeKindNum == 1) {
+            return FULL_HOUSE;
         }
         return HIGH_CARD;
     }
@@ -135,6 +136,7 @@ public class PokerHandle {
         int maxNum2 = getMaxNum(secondPokers);
         return maxNum1 > maxNum2 ? "Player 1 win" : "Player 2 win";
     }
+
     private Boolean isStraight(List<Integer> pokersNumList) {
         Set<Integer> poker = new HashSet<>();
         for (int i = 0; i < pokersNumList.size() - 1; i++) {
