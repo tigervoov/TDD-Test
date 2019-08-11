@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pokerHandleTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2019-08-11T05:37:33" hostname="ZHA-ITA022-W10" time="0.035">
+  <properties/>
+  <testcase name="testCheckFlushPokerListWhenSameLevel" classname="pokerHandleTest" time="0.013"/>
+  <testcase name="testCheckThreeKindPokerList" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckFlushPokerList" classname="pokerHandleTest" time="0.001"/>
+  <testcase name="testCheckStraightFlushPokerList" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckTwoCardListValue" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckPairPokerListWhenSameLevel" classname="pokerHandleTest" time="0.004"/>
+  <testcase name="testCheckFullHousePokerListWhenSameLevel" classname="pokerHandleTest" time="0.002"/>
+  <testcase name="testCheckTwoPairPokerListWhenSameLevel" classname="pokerHandleTest" time="0.002"/>
+  <testcase name="testCheckPairPokerList" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckTwoPairPokerList" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckFourKindPokerListWhenSameLevel" classname="pokerHandleTest" time="0.001"/>
+  <testcase name="testCheckThreeKindPokerListWhenSameLevel" classname="pokerHandleTest" time="0.001"/>
+  <testcase name="testCheckStraightFlushPokerListWhenSameLevel" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckHighCardPokersList" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckStraightPokerListWhenSameLevel" classname="pokerHandleTest" time="0.0"/>
+  <testcase name="testCheckFourKindPokerList" classname="pokerHandleTest" time="0.001"/>
+  <testcase name="testCheckFullHousePokerList" classname="pokerHandleTest" time="0.001"/>
+  <testcase name="testCheckStraightPokerList" classname="pokerHandleTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
